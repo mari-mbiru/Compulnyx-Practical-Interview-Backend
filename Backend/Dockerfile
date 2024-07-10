@@ -1,5 +1,5 @@
 # This image contains the JDK required to build the Spring Boot application
-FROM openjdk:17-jdk-alpine as build
+FROM eclipse-temurin:17-jdk-jammy as build
 
 
 # This creates and sets the /app directory as the working directory
@@ -30,7 +30,7 @@ WORKDIR /app
 # Copy the JAR file from the /app/build/libs directory of the build stage to the current directory
 COPY --from=build /app/build/libs/*.jar app.jar
 
-# Expose port 8080, which is the default port for Spring Boot applications
+# Expose port 8082, which is the default port for Spring Boot applications
 EXPOSE 8080
 
 # Specify the command to run the Spring Boot application when the container starts
