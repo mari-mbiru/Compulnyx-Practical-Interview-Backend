@@ -39,7 +39,6 @@ public class AccountEntity {
     @NotBlank
     private Long accountBalance;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "transaction_id")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "transactions")
     private ArrayList<TransactionEntity> transactions;
 }
