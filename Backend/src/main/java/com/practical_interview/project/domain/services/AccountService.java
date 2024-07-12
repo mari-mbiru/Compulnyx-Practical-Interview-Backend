@@ -1,13 +1,10 @@
 package com.practical_interview.project.domain.services;
 
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.practical_interview.project.controllers.models.*;
 import com.practical_interview.project.persistence.entities.AccountEntity;
-import com.practical_interview.project.persistence.entities.CustomerEntity;
 import com.practical_interview.project.persistence.entities.TransactionEntity;
 import com.practical_interview.project.persistence.entities.enums.TransactionTypeEnum;
 import com.practical_interview.project.persistence.repositories.AccountRepository;
-import com.practical_interview.project.persistence.repositories.CustomerRepository;
 import com.practical_interview.project.persistence.repositories.TransactionRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -21,14 +18,7 @@ import java.util.UUID;
 public class AccountService {
 
     private final AccountRepository accountRepository;
-    private final CustomerRepository customerRepository;
     private final TransactionRepository transactionRepository;
-//
-//    public AccountEntity createCustomerAccount(CustomerEntity customer){
-//        var account = AccountEntity.builder()
-//                .accountBalance(0L)
-//                .customer(customer);
-//    }
 
     @Transactional
     public TransactionResponse makeTransaction(TransactionRequest request){

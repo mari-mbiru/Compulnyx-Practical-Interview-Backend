@@ -1,20 +1,16 @@
 package com.practical_interview.project.controllers;
 
-import com.practical_interview.project.controllers.models.*;
+import com.practical_interview.project.controllers.models.TransactionRequest;
+import com.practical_interview.project.controllers.models.TransactionResponse;
+import com.practical_interview.project.controllers.models.TransferRequest;
+import com.practical_interview.project.controllers.models.TransferResponse;
 import com.practical_interview.project.domain.services.AccountService;
-import com.practical_interview.project.persistence.repositories.AccountRepository;
-import com.practical_interview.project.persistence.repositories.CustomerRepository;
-import com.practical_interview.project.persistence.repositories.TransactionRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.stream.Collectors;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import static com.practical_interview.project.config.ConfigConstants.BASE_URL;
 
@@ -29,7 +25,7 @@ public class AccountController {
     @PostMapping("/transaction")
     public ResponseEntity<TransactionResponse> createTransaction(
             @RequestBody TransactionRequest request
-            ) {
+    ) {
         return ResponseEntity.ok(accountService.makeTransaction(request));
     }
 

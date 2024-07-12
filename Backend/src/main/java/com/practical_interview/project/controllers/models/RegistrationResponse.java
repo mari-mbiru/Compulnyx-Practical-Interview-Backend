@@ -1,8 +1,10 @@
 package com.practical_interview.project.controllers.models;
 
 import com.practical_interview.project.domain.models.CustomerDetail;
-import lombok.*;
-import lombok.experimental.SuperBuilder;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder

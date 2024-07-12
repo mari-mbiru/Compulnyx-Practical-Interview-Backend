@@ -3,7 +3,6 @@ package com.practical_interview.project.controllers;
 import com.practical_interview.project.controllers.models.AccountBalanceResponse;
 import com.practical_interview.project.controllers.models.Transaction;
 import com.practical_interview.project.persistence.repositories.AccountRepository;
-import com.practical_interview.project.persistence.repositories.CustomerRepository;
 import com.practical_interview.project.persistence.repositories.TransactionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;

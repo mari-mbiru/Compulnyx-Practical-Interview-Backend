@@ -7,11 +7,9 @@ import com.practical_interview.project.controllers.models.AuthenticationResponse
 import com.practical_interview.project.controllers.models.RegisterRequest;
 import com.practical_interview.project.controllers.models.RegistrationResponse;
 import com.practical_interview.project.domain.models.CustomerDetail;
-import com.practical_interview.project.domain.services.AccountService;
 import com.practical_interview.project.persistence.entities.AccountEntity;
 import com.practical_interview.project.persistence.entities.CustomerEntity;
 import com.practical_interview.project.persistence.entities.TokenEntity;
-import com.practical_interview.project.persistence.entities.enums.Role;
 import com.practical_interview.project.persistence.repositories.AccountRepository;
 import com.practical_interview.project.persistence.repositories.CustomerRepository;
 import com.practical_interview.project.persistence.repositories.TokenRespository;
@@ -31,6 +29,7 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final AccountRepository accountRepository;
+
     public RegistrationResponse register(RegisterRequest request) {
 
         var userPin = Utils.generateRandomPin();
