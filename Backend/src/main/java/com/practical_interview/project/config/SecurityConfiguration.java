@@ -23,7 +23,10 @@ public class SecurityConfiguration {
 
     private static final String[] WHITE_LIST_URL = {
             "/api/v1/auth/**",
-            "/h2-console/**"
+            "/h2-console/**",
+            "/swagger/**",
+            "/v3/api-docs/**",
+
     };
     private final JWTAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
