@@ -1,6 +1,4 @@
 spring:
-  server:
-    port: 8080
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:testdb
@@ -9,6 +7,11 @@ spring:
 
   jpa:
     hibernate.ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+
 
   h2:
     console:
@@ -17,7 +20,15 @@ spring:
       enabled: true
       path: /h2-console
 
+application:
   security:
-    user:
-      name: mari
-      password: mari
+    jwt:
+      secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      expiration: 86400000 # a day
+      refresh-token:
+        expiration: 604800000 # 7 days
+
+logging:
+  level:
+    org.springframework.security: INFO
+

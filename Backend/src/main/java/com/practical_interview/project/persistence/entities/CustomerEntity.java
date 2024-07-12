@@ -1,24 +1,17 @@
 package com.practical_interview.project.persistence.entities;
 
-import java.util.UUID;
-
-import com.practical_interview.project.persistence.entities.enums.UserTypeEnum;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import jakarta.persistence.Id;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.UUID;
 
 @Data
 @Builder
@@ -26,18 +19,16 @@ import jakarta.persistence.Id;
 @AllArgsConstructor
 @Entity
 @Table(name = "customers")
-public class CustomerEntity {
+public class CustomerEntity implements UserDetails {
 
     @Id
     @GeneratedValue
-    @Column(name = "internal_id")
-    private UUID Id;
+    @Column(name = "uuid")
+    private UUID uuid;
 
-    @Column(name = "first_name")
     @NotBlank
     private String firstName;
 
-    @Column(name = "last_name")
     @NotBlank
     private String lastName;
 
@@ -45,21 +36,32 @@ public class CustomerEntity {
     @NotBlank
     private String email;
 
-    @Column(name = "customer_id", unique = true)
+    @Column(unique = true)
     @NotBlank
-    private String userID;
+    private String userId;
 
-    @Column(name = "customer_pin")
     @NotBlank
     private String userPin;
 
-    @Column(name = "customer_type")
-    @NotBlank
-    @Enumerated(EnumType.STRING)
-    private UserTypeEnum userType;
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
+    private Collection<TokenEntity> tokenEntity;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "account_id")
-    public AccountEntity account;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return new ArrayList<>();
+    }
 
+    @Override
+    public String getPassword() {
+        return userPin;
+    }
+
+    @Override
+    public String getUsername() {
+        return userId;
+    }
+
+    public String getCustomerName() {
+        return String.join(" ", firstName, lastName);
+    }
 }
