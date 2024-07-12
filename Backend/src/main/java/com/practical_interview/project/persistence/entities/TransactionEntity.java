@@ -1,5 +1,6 @@
 package com.practical_interview.project.persistence.entities;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import com.practical_interview.project.persistence.entities.enums.TransactionTypeEnum;
@@ -16,6 +17,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,23 +32,23 @@ import lombok.NoArgsConstructor;
 public class TransactionEntity {
     @Id
     @GeneratedValue
-    @Column(name = "transaction_id")
-    private UUID Id;
+    @Column(name = "uuid")
+    private UUID uuid;
 
-    @Column(name = "transaction_amount")
-    @NotBlank
+    @NotNull
+    private LocalDateTime dateCreated;
+
+    @NotNull
     @Min(0)
     private Long transactionAmount;
 
-    @Column(name = "transaction_type")
-    @NotBlank
+    @NotNull
     @Enumerated(EnumType.STRING)
     private TransactionTypeEnum transactionType;
 
-    @Column(name = "transfer_id")
     private UUID transferId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_id_fk", referencedColumnName = "account_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "account_id_fk", referencedColumnName = "uuid")
     private AccountEntity account;
 }

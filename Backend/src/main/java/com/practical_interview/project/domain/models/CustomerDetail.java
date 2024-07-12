@@ -11,4 +11,7 @@ public class CustomerDetail {
     private String userID;
 
     private String userName;
+
+    private String customerPin;
+
 }

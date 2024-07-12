@@ -1,4 +1,4 @@
-package com.practical_interview.project.controllers.authentication.models;
+package com.practical_interview.project.controllers.models;
 
 import com.practical_interview.project.domain.models.CustomerDetail;
 import lombok.AllArgsConstructor;
@@ -7,12 +7,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class AuthenticationResponse {
 
     private String accessToken;
+
     private String refreshToken;
+
     private CustomerDetail customerDetail;
 }

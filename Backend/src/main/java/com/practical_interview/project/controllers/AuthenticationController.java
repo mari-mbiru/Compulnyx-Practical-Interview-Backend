@@ -1,8 +1,9 @@
-package com.practical_interview.project.controllers.authentication;
+package com.practical_interview.project.controllers;
 
-import com.practical_interview.project.controllers.authentication.models.AuthenticationRequest;
-import com.practical_interview.project.controllers.authentication.models.AuthenticationResponse;
-import com.practical_interview.project.controllers.authentication.models.RegisterRequest;
+import com.practical_interview.project.controllers.models.AuthenticationRequest;
+import com.practical_interview.project.controllers.models.AuthenticationResponse;
+import com.practical_interview.project.controllers.models.RegisterRequest;
+import com.practical_interview.project.controllers.models.RegistrationResponse;
 import com.practical_interview.project.domain.services.authentication.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(
+    public ResponseEntity<RegistrationResponse> register(
             @RequestBody RegisterRequest request
     ) {
         return ResponseEntity.ok(authenticationService.register(request));
@@ -29,12 +30,4 @@ public class AuthenticationController {
     ) {
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
-
-//    @PostMapping("/refresh-token")
-//    public void refreshToken(
-//            HttpServletRequest request,
-//            HttpServletResponse response
-//    ) throws IOException {
-//        service.refreshToken(request, response);
-//    }
 }

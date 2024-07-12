@@ -1,6 +1,6 @@
 package com.practical_interview.project.config;
 
-import com.practical_interview.project.persistence.repositories.CustomerRespository;
+import com.practical_interview.project.persistence.repositories.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,12 +17,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class ApplicationConfig {
 
-    private final CustomerRespository repository;
+    private final CustomerRepository repository;
 
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return userID -> repository.findByUserID(userID)
+        return userID -> repository.findByUserId(userID)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 

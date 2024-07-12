@@ -1,4 +1,4 @@
-package com.practical_interview.project.controllers.authentication.models;
+package com.practical_interview.project.controllers.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

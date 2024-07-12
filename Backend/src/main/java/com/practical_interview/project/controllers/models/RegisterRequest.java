@@ -1,4 +1,4 @@
-package com.practical_interview.project.controllers.authentication.models;
+package com.practical_interview.project.controllers.models;
 
 
 public record RegisterRequest(

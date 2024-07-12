@@ -8,6 +8,7 @@ import com.practical_interview.project.persistence.entities.enums.Role;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,14 +26,12 @@ public class CustomerEntity implements UserDetails {
 
     @Id
     @GeneratedValue
-    @Column(name = "internal_id")
-    private UUID Id;
+    @Column(name = "uuid")
+    private UUID uuid;
 
-    @Column(name = "first_name")
     @NotBlank
     private String firstName;
 
-    @Column(name = "last_name")
     @NotBlank
     private String lastName;
 
@@ -40,23 +39,17 @@ public class CustomerEntity implements UserDetails {
     @NotBlank
     private String email;
 
-    @Column(name = "customer_id", unique = true)
+    @Column(unique = true)
     @NotBlank
-    private String userID;
+    private String userId;
 
-    @Column(name = "customer_pin")
     @NotBlank
     private String userPin;
 
-    @Column(name = "customer_type")
-    @NotBlank
-    @Enumerated(EnumType.STRING)
-    private Role role;
-
-    @OneToOne(mappedBy = "accounts", fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "customer", fetch = FetchType.EAGER)
     public AccountEntity account;
 
-    @OneToMany(mappedBy = "customers", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
     private Collection<TokenEntity> tokenEntity;
 
     @Override
@@ -71,7 +64,7 @@ public class CustomerEntity implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userID;
+        return userId;
     }
 
     public String getCustomerName() {

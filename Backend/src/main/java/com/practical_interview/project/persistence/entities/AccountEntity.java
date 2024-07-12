@@ -13,6 +13,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,17 +29,16 @@ public class AccountEntity {
 
     @Id
     @GeneratedValue
-    @Column(name = "account_id")
-    private UUID Id;
+    @Column(name = "uuid")
+    private UUID uuid;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_internal_id_fk", referencedColumnName = "internal_id")
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "customer_uuid_fk", referencedColumnName = "uuid")
     public CustomerEntity customer;
 
-    @Column(name = "account_balance")
-    @NotBlank
+    @NotNull
     private Long accountBalance;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "transactions")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
     private ArrayList<TransactionEntity> transactions;
 }

@@ -19,19 +19,20 @@ public class TokenEntity {
 
     @Id
     @GeneratedValue
-    public UUID Id;
+    @Column(name = "uuid")
+    public UUID uuid;
 
     @Column(unique = true)
     public String token;
 
     @Enumerated(EnumType.STRING)
-    public TokenType tokenType = TokenType.BEARER;
+    public final TokenType tokenType = TokenType.BEARER;
 
     public boolean revoked;
 
     public boolean expired;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_internal_id_fk", referencedColumnName = "internal_id")
+    @JoinColumn(name = "customer_internal_id_fk", referencedColumnName = "uuid")
     public CustomerEntity customer;
 }

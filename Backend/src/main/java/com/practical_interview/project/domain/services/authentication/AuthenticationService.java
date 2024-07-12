@@ -2,15 +2,18 @@ package com.practical_interview.project.domain.services.authentication;
 
 import com.practical_interview.project.config.JWTService;
 import com.practical_interview.project.config.Utils;
-import com.practical_interview.project.controllers.authentication.models.AuthenticationRequest;
-import com.practical_interview.project.controllers.authentication.models.AuthenticationResponse;
-import com.practical_interview.project.controllers.authentication.models.RegisterRequest;
+import com.practical_interview.project.controllers.models.AuthenticationRequest;
+import com.practical_interview.project.controllers.models.AuthenticationResponse;
+import com.practical_interview.project.controllers.models.RegisterRequest;
+import com.practical_interview.project.controllers.models.RegistrationResponse;
 import com.practical_interview.project.domain.models.CustomerDetail;
+import com.practical_interview.project.domain.services.AccountService;
+import com.practical_interview.project.persistence.entities.AccountEntity;
 import com.practical_interview.project.persistence.entities.CustomerEntity;
 import com.practical_interview.project.persistence.entities.TokenEntity;
-import com.practical_interview.project.persistence.entities.enums.TokenType;
 import com.practical_interview.project.persistence.entities.enums.Role;
-import com.practical_interview.project.persistence.repositories.CustomerRespository;
+import com.practical_interview.project.persistence.repositories.AccountRepository;
+import com.practical_interview.project.persistence.repositories.CustomerRepository;
 import com.practical_interview.project.persistence.repositories.TokenRespository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,26 +25,29 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
-    private final CustomerRespository customerRespository;
+    private final CustomerRepository customerRepository;
     private final TokenRespository tokenRespository;
     private final JWTService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final AccountRepository accountRepository;
+    public RegistrationResponse register(RegisterRequest request) {
 
-    public AuthenticationResponse register(RegisterRequest request) {
+        var userPin = Utils.generateRandomPin();
+        var customer = getCustomerFromRegisterRequest(request, userPin);
+        var savedCustomer = customerRepository.save(customer);
 
-        var customer = getCustomerFromRegisterRequest(request);
-        var savedCustomer = customerRespository.save(customer);
+        var account = AccountEntity.builder()
+                .accountBalance(0L)
+                .customer(customer)
+                .build();
+        accountRepository.save(account);
 
         var customerDetail = getCustomerDetailFromCustomerEntity(savedCustomer);
+        customerDetail.setCustomerPin(userPin);
 
-        var jwtToken = jwtService.generateToken(savedCustomer);
-        var refreshToken = jwtService.generateRefreshToken(savedCustomer);
-        saveUserToken(savedCustomer, jwtToken);
-        return AuthenticationResponse.builder()
+        return RegistrationResponse.builder()
                 .customerDetail(customerDetail)
-                .accessToken(jwtToken)
-                .refreshToken(refreshToken)
                 .build();
     }
 
@@ -53,7 +59,7 @@ public class AuthenticationService {
                 )
         );
 
-        var customerEntity = customerRespository.findByUserID(request.getUserID())
+        var customerEntity = customerRepository.findByUserId(request.getUserID())
                 .orElseThrow();
 
         var jwtToken = jwtService.generateToken(customerEntity);
@@ -64,6 +70,7 @@ public class AuthenticationService {
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
+                .customerDetail(getCustomerDetailFromCustomerEntity(customerEntity))
                 .build();
     }
 
@@ -71,7 +78,6 @@ public class AuthenticationService {
         var token = TokenEntity.builder()
                 .customer(customer)
                 .token(jwtToken)
-                .tokenType(TokenType.BEARER)
                 .expired(false)
                 .revoked(false)
                 .build();
@@ -79,7 +85,7 @@ public class AuthenticationService {
     }
 
     private void revokeAllUserTokens(CustomerEntity customer) {
-        var validUserTokens = tokenRespository.findAllValidTokenByUser(customer.getId());
+        var validUserTokens = tokenRespository.findAllValidTokenByUser(customer.getUuid());
         if (validUserTokens.isEmpty())
             return;
         validUserTokens.forEach(token -> {
@@ -89,49 +95,22 @@ public class AuthenticationService {
         tokenRespository.saveAll(validUserTokens);
     }
 
-    //    public void refreshToken(
-//            HttpServletRequest request,
-//            HttpServletResponse response
-//    ) throws IOException {
-//        final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-//        final String refreshToken;
-//        final String userEmail;
-//        if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
-//            return;
-//        }
-//        refreshToken = authHeader.substring(7);
-//        userEmail = jwtService.extractUsername(refreshToken);
-//        if (userEmail != null) {
-//            var user = this.repository.findByEmail(userEmail)
-//                    .orElseThrow();
-//            if (jwtService.isTokenValid(refreshToken, user)) {
-//                var accessToken = jwtService.generateToken(user);
-//                revokeAllUserTokens(user);
-//                saveUserToken(user, accessToken);
-//                var authResponse = AuthenticationResponse.builder()
-//                        .accessToken(accessToken)
-//                        .refreshToken(refreshToken)
-//                        .build();
-//                new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
-//            }
-//        }
-//    }
     public CustomerDetail getCustomerDetailFromCustomerEntity(CustomerEntity customer) {
 
         return CustomerDetail.builder()
-                .userID(customer.getUserID())
-                .userName(customer.getUsername())
+                .userID(customer.getUserId())
+                .userName(customer.getCustomerName())
                 .build();
     }
 
-    public CustomerEntity getCustomerFromRegisterRequest(RegisterRequest request) {
+    public CustomerEntity getCustomerFromRegisterRequest(RegisterRequest request, String userPin) {
 
         return CustomerEntity.builder()
                 .firstName(request.firstName())
                 .lastName(request.lastName())
                 .email(request.email())
-                .userPin(passwordEncoder.encode(Utils.generateRandomPin()))
-                .role(Role.CUSTOMER)
+                .userId(request.customerId())
+                .userPin(passwordEncoder.encode(userPin))
                 .build();
     }
 
