@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.UUID;
 
 @Data
@@ -23,7 +23,7 @@ public class AccountEntity {
     @Column(name = "uuid")
     private UUID uuid;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_uuid_fk", referencedColumnName = "uuid")
     public CustomerEntity customer;
 
@@ -31,5 +31,5 @@ public class AccountEntity {
     private Long accountBalance;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
-    private ArrayList<TransactionEntity> transactions;
+    private Collection<TransactionEntity> transactions;
 }

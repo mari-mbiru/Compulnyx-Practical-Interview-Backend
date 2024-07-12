@@ -43,9 +43,6 @@ public class CustomerEntity implements UserDetails {
     @NotBlank
     private String userPin;
 
-    @OneToOne(mappedBy = "customer", fetch = FetchType.EAGER)
-    public AccountEntity account;
-
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
     private Collection<TokenEntity> tokenEntity;
 

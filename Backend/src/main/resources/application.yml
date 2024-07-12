@@ -16,6 +16,10 @@ spring:
             scripts:
               action: create
               create-target: create.sql
+      hibernate:
+        format_sql: true
+    show-sql: true
+
 
   h2:
     console:
@@ -34,4 +38,5 @@ application:
 
 logging:
   level:
-    org.springframework.security: DEBUG
+    org.springframework.security: INFO
+

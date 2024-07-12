@@ -16,4 +16,6 @@ public class Transaction {
     private Long transactionAmount;
 
     private TransactionTypeEnum transactionType;
+
+    private String transferId;
 }
