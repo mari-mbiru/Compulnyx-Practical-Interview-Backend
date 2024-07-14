@@ -2,7 +2,19 @@
 
 ## Running the Project
 
-To run the project, you have two options: using Java or Docker.
+To run the project, you have two options: using Docker or Java.
+
+### Using Docker (recommended)
+
+1. Ensure Docker and Docker Compose are installed on your machine. If not, you can download it
+   from [here](https://docs.docker.com/compose/install/).
+2. Clone the project repository and navigate to the project root directory.
+
+3. In the project repository open a terminal window and run the command
+
+   ```
+   docker-compose up --build
+   ```
 
 ### Using Java
 
@@ -11,21 +23,8 @@ To run the project, you have two options: using Java or Docker.
 2. Clone the project repository and navigate to the project root directory.
 3. Run the project using one of the following commands:
     - Using Gradle: `./gradlew bootRun`
-    - Using Maven: `./mvn spring-boot:run`
 
-The application will be accessible at [http://localhost:4200](http://localhost:4200).
-
-### Using Docker
-
-1. Ensure Docker is installed on your machine. If not, you can download it
-   from [here](https://docs.docker.com/get-docker/).
-2. Clone the project repository and navigate to the project root directory.
-3. Run the following command to start the application:
-    ```sh
-    docker-compose up
-    ```
-
-The application will be accessible at [http://localhost:4200](http://localhost:4200).
+The application will be accessible at [http://localhost:8080](http://localhost:8080).
 
 ## Test Data
 

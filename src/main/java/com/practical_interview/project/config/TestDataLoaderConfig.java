@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.UUID;
 
@@ -51,36 +52,41 @@ public class TestDataLoaderConfig {
 
             var account2 = AccountEntity.builder()
                     .accountBalance(0L)
-                    .customer(firstCustomer)
+                    .customer(nextCustomer)
                     .build();
             accountRepository.save(account2);
 
             var transferId = UUID.randomUUID();
             var transferId2 = UUID.randomUUID();
+            var date = LocalDateTime.now();
 
             var transactions = Arrays.asList(
                     //Deposit account 1
                     TransactionEntity.builder()
                             .transactionAmount(10000L)
                             .transactionType(TransactionTypeEnum.CREDIT)
+                            .dateCreated(date)
                             .account(account).build(),
 
                     //Deposit account 2
                     TransactionEntity.builder()
                             .transactionAmount(10000L)
                             .transactionType(TransactionTypeEnum.CREDIT)
+                            .dateCreated(date)
                             .account(account2).build(),
 
                     //Withdraw account 1
                     TransactionEntity.builder()
                             .transactionAmount(2500L)
                             .transactionType(TransactionTypeEnum.DEBIT)
+                            .dateCreated(date)
                             .account(account).build(),
 
                     //Withdraw account 2
                     TransactionEntity.builder()
                             .transactionAmount(7500L)
                             .transactionType(TransactionTypeEnum.DEBIT)
+                            .dateCreated(date)
                             .account(account2).build(),
 
                     //Transfer account 2 to account 1
@@ -88,11 +94,14 @@ public class TestDataLoaderConfig {
                             .transactionAmount(200L)
                             .transactionType(TransactionTypeEnum.CREDIT)
                             .transferId(transferId)
+                            .dateCreated(date)
                             .account(account).build(),
+
                     TransactionEntity.builder()
                             .transactionAmount(200L)
                             .transactionType(TransactionTypeEnum.DEBIT)
                             .transferId(transferId)
+                            .dateCreated(date)
                             .account(account2).build(),
 
                     //Transfer account 1 to account 2
@@ -100,11 +109,14 @@ public class TestDataLoaderConfig {
                             .transactionAmount(1000L)
                             .transactionType(TransactionTypeEnum.DEBIT)
                             .transferId(transferId2)
+                            .dateCreated(date)
                             .account(account).build(),
+
                     TransactionEntity.builder()
                             .transactionAmount(1000L)
                             .transactionType(TransactionTypeEnum.CREDIT)
                             .transferId(transferId2)
+                            .dateCreated(date)
                             .account(account2).build()
             );
 
