@@ -1,6 +1,7 @@
 package com.practical_interview.project.domain.services;
 
 import com.practical_interview.project.controllers.models.*;
+import com.practical_interview.project.exceptions.AppException;
 import com.practical_interview.project.persistence.entities.AccountEntity;
 import com.practical_interview.project.persistence.entities.TransactionEntity;
 import com.practical_interview.project.persistence.entities.enums.TransactionTypeEnum;
@@ -8,6 +9,7 @@ import com.practical_interview.project.persistence.repositories.AccountRepositor
 import com.practical_interview.project.persistence.repositories.TransactionRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -23,7 +25,7 @@ public class AccountService {
     @Transactional
     public TransactionResponse makeTransaction(TransactionRequest request){
 
-        var account = accountRepository.findByCustomerId(request.userId()).orElseThrow();
+        var account = accountRepository.findByCustomerId(request.userId()).orElseThrow(() -> new AppException("User not found", HttpStatus.NOT_FOUND));
 
         var newBalance = getNewBalance(account.getAccountBalance(), request.transactionAmount(), request.transactionType());
 
@@ -48,8 +50,8 @@ public class AccountService {
     @Transactional
     public TransferResponse makeTransfer(TransferRequest request){
 
-        var fromAccount = accountRepository.findByCustomerId(request.fromCustomerId()).orElseThrow();
-        var toAccount = accountRepository.findByCustomerId(request.fromCustomerId()).orElseThrow();
+        var fromAccount = accountRepository.findByCustomerId(request.fromCustomerId()).orElseThrow(() -> new AppException("Sending user does not exist, please try again with another user.", HttpStatus.BAD_REQUEST));
+        var toAccount = accountRepository.findByCustomerId(request.toCustomerId()).orElseThrow(() -> new AppException("Receiving user does not exist please try again with another user.", HttpStatus.BAD_REQUEST));
 
         var fromNewBalance = getNewBalance(fromAccount.getAccountBalance(), request.transferAmount(), TransactionTypeEnum.DEBIT);
         var toNewBalance = getNewBalance(toAccount.getAccountBalance(), request.transferAmount(), TransactionTypeEnum.CREDIT);
@@ -63,13 +65,14 @@ public class AccountService {
                 .dateCreated(LocalDateTime.now())
                 .transferId(transferID)
                 .build();
+
         var toTransaction = TransactionEntity.builder()
                 .transactionAmount(request.transferAmount())
                 .transactionType(TransactionTypeEnum.CREDIT)
                 .account(toAccount)
                 .dateCreated(LocalDateTime.now())
                 .transferId(transferID)
-                .build();;
+                .build();
 
         transactionRepository.save(fromTransaction);
         transactionRepository.save(toTransaction);

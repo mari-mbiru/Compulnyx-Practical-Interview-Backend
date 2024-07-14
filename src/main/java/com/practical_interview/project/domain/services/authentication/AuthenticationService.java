@@ -7,6 +7,7 @@ import com.practical_interview.project.controllers.models.AuthenticationResponse
 import com.practical_interview.project.controllers.models.RegisterRequest;
 import com.practical_interview.project.controllers.models.RegistrationResponse;
 import com.practical_interview.project.domain.models.CustomerDetail;
+import com.practical_interview.project.exceptions.AppException;
 import com.practical_interview.project.persistence.entities.AccountEntity;
 import com.practical_interview.project.persistence.entities.CustomerEntity;
 import com.practical_interview.project.persistence.entities.TokenEntity;
@@ -14,8 +15,10 @@ import com.practical_interview.project.persistence.repositories.AccountRepositor
 import com.practical_interview.project.persistence.repositories.CustomerRepository;
 import com.practical_interview.project.persistence.repositories.TokenRespository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +39,9 @@ public class AuthenticationService {
         var customer = getCustomerFromRegisterRequest(request, userPin);
         var savedCustomer = customerRepository.save(customer);
 
+        if (accountRepository.findByCustomerId(customer.getUserId()).isPresent()) {
+            throw new AppException("A user with that Id already exists. Id must be unique", HttpStatus.BAD_REQUEST);
+        }
         var account = AccountEntity.builder()
                 .accountBalance(0L)
                 .customer(customer)
@@ -51,15 +57,20 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getUserID(),
-                        request.getUserPin()
-                )
-        );
+
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getUserID(),
+                            request.getUserPin()
+                    )
+            );
+        } catch (AuthenticationException e) {
+            throw new AppException("Authentication failed: check Id or Password", HttpStatus.UNAUTHORIZED);
+        }
 
         var customerEntity = customerRepository.findByUserId(request.getUserID())
-                .orElseThrow();
+                .orElseThrow(() -> new AppException("User not found", HttpStatus.NOT_FOUND));
 
         var jwtToken = jwtService.generateToken(customerEntity);
         var refreshToken = jwtService.generateRefreshToken(customerEntity);
