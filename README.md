@@ -30,10 +30,10 @@ The application will be accessible at [http://localhost:8080](http://localhost:8
 
 Upon starting the project, some test data will be loaded automatically. The following users will be available:
 
-| ID       | Name          | Email                     | Password |
-|----------|---------------|---------------------------|----------|
-| 75210938 | Mercy Wanjiru | mercy.wanjiru@example.com | 12345    |
-| 60834792 | Kevin Mwangi  | kevin.mwangi@example.com  | 12345    |
+| ID       | Name         | Email                    | Password |
+|----------|--------------|--------------------------|----------|
+| 75210938 | Joyce Akinyi | joyce.Akinyi@example.com | 12345    |
+| 60834792 | Kevin Mwangi | kevin.mwangi@example.com | 12345    |
 
 Feel free to use these credentials to test the application.
 
