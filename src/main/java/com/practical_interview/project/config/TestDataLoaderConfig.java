@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.UUID;
 
 @Component
@@ -36,7 +37,7 @@ public class TestDataLoaderConfig {
             customerRepository.save(firstCustomer);
 
             var account = AccountEntity.builder()
-                    .accountBalance(0L)
+                    .accountBalance(6500L)
                     .customer(firstCustomer)
                     .build();
             accountRepository.save(account);
@@ -51,7 +52,7 @@ public class TestDataLoaderConfig {
             customerRepository.save(nextCustomer);
 
             var account2 = AccountEntity.builder()
-                    .accountBalance(0L)
+                    .accountBalance(2700L)
                     .customer(nextCustomer)
                     .build();
             accountRepository.save(account2);
@@ -101,6 +102,7 @@ public class TestDataLoaderConfig {
                     .transactionType(TransactionTypeEnum.CREDIT)
                     .transferId(transferId)
                     .dateCreated(date)
+                    .relatedTransactions(new HashSet<>())
                     .account(account).build();
 
             var transferCredit = TransactionEntity.builder()
@@ -108,10 +110,12 @@ public class TestDataLoaderConfig {
                     .transactionType(TransactionTypeEnum.DEBIT)
                     .transferId(transferId)
                     .dateCreated(date)
-                    .account(account2).build();
+                    .account(account2)
+                    .relatedTransactions(new HashSet<>())
+                    .build();
 
-            transferDebit.setRelatedTransaction(transferCredit);
-            transferCredit.setRelatedTransaction(transferDebit);
+            transferDebit.addRelatedTransaction(transferCredit);
+            transferCredit.addRelatedTransaction(transferDebit);
 
             //Transfer account 1 to account 2
             var transfer2Debit = TransactionEntity.builder()
@@ -119,6 +123,7 @@ public class TestDataLoaderConfig {
                     .transactionType(TransactionTypeEnum.DEBIT)
                     .transferId(transferId2)
                     .dateCreated(date)
+                    .relatedTransactions(new HashSet<>())
                     .account(account).build();
 
             var transfer2Credit = TransactionEntity.builder()
@@ -126,9 +131,11 @@ public class TestDataLoaderConfig {
                     .transactionType(TransactionTypeEnum.CREDIT)
                     .transferId(transferId2)
                     .dateCreated(date)
+                    .relatedTransactions(new HashSet<>())
                     .account(account2).build();
-            transfer2Debit.setRelatedTransaction(transferCredit);
-            transfer2Credit.setRelatedTransaction(transferDebit);
+
+            transfer2Debit.addRelatedTransaction(transfer2Credit);
+            transfer2Credit.addRelatedTransaction(transfer2Debit);
 
             transactionRepository.saveAll(Arrays.asList(transferCredit, transferDebit, transfer2Credit, transfer2Debit));
         };

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.practical_interview.project.config.ConfigConstants.BASE_URL;
@@ -50,13 +51,20 @@ public class CustomerController {
         var transactions = transactionRepository.findAllByAccount(account, pageable);
 
         return ResponseEntity.ok(transactions.stream()
-                .map(transactionEntity ->
-                        Transaction.builder()
-                                .uuid(transactionEntity.getUuid().toString())
-                                .dateCreated(transactionEntity.getDateCreated())
-                                .transactionType(transactionEntity.getTransactionType())
-                                .transactionAmount(transactionEntity.getTransactionAmount())
-                                .build())
+                .map(transactionEntity -> {
+                            String transferId = null;
+                            if (Objects.nonNull(transactionEntity.getTransferId())) {
+                                transferId = transactionEntity.getTransferId().toString();
+                            }
+                            return Transaction.builder()
+                                    .uuid(transactionEntity.getUuid().toString())
+                                    .dateCreated(transactionEntity.getDateCreated())
+                                    .transactionType(transactionEntity.getTransactionType())
+                                    .transactionAmount(transactionEntity.getTransactionAmount())
+                                    .transferId(transferId)
+                                    .build();
+                        }
+                )
                 .collect(Collectors.toCollection(ArrayList::new)));
     }
 

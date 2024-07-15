@@ -50,15 +50,15 @@ public class AccountService {
     @Transactional
     public TransferResponse makeTransfer(TransferRequest request){
 
-        var fromAccount = accountRepository.findByCustomerId(request.fromCustomerId()).orElseThrow(() -> new AppException("Sending user does not exist, please try again with another user.", HttpStatus.BAD_REQUEST));
-        var toAccount = accountRepository.findByCustomerId(request.toCustomerId()).orElseThrow(() -> new AppException("Receiving user does not exist please try again with another user.", HttpStatus.BAD_REQUEST));
+        var fromAccount = accountRepository.findByCustomerId(request.fromCustomerId()).orElseThrow(() -> new AppException("Sending user does not exist, please try again with another user.", HttpStatus.NOT_FOUND));
+        var toAccount = accountRepository.findByCustomerId(request.toCustomerId()).orElseThrow(() -> new AppException("Receiving user does not exist please try again with another user.", HttpStatus.NOT_FOUND));
 
         var fromNewBalance = getNewBalance(fromAccount.getAccountBalance(), request.transferAmount(), TransactionTypeEnum.DEBIT);
         var toNewBalance = getNewBalance(toAccount.getAccountBalance(), request.transferAmount(), TransactionTypeEnum.CREDIT);
 
         var transferID = UUID.randomUUID();
 
-        var fromTransaction = TransactionEntity.builder()
+        var debitTransaction = TransactionEntity.builder()
                 .transactionAmount(request.transferAmount())
                 .transactionType(TransactionTypeEnum.DEBIT)
                 .account(fromAccount)
@@ -66,7 +66,7 @@ public class AccountService {
                 .transferId(transferID)
                 .build();
 
-        var toTransaction = TransactionEntity.builder()
+        var creditTransaction = TransactionEntity.builder()
                 .transactionAmount(request.transferAmount())
                 .transactionType(TransactionTypeEnum.CREDIT)
                 .account(toAccount)
@@ -74,11 +74,11 @@ public class AccountService {
                 .transferId(transferID)
                 .build();
 
-        fromTransaction.setRelatedTransaction(toTransaction);
-        toTransaction.setRelatedTransaction(fromTransaction);
+        debitTransaction.addRelatedTransaction(creditTransaction);
+        creditTransaction.addRelatedTransaction(debitTransaction);
 
-        transactionRepository.save(fromTransaction);
-        transactionRepository.save(toTransaction);
+        transactionRepository.save(debitTransaction);
+        transactionRepository.save(creditTransaction);
 
 
         fromAccount.setAccountBalance(fromNewBalance);

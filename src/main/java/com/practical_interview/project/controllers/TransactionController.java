@@ -35,14 +35,16 @@ public class TransactionController {
                 .transactionAmount(transaction.getTransactionAmount())
                 .transactionType(transaction.getTransactionType())
                 .dateCreated(transaction.getDateCreated())
-                .transferId(String.valueOf(transaction.getTransferId()))
+                .uuid(String.valueOf(transaction.getUuid()))
                 .build();
 
-        if (Objects.nonNull(transaction.getRelatedTransaction())) {
+        if (Objects.nonNull(transaction.getTransferId()) && transaction.getRelatedTransactions().stream().findFirst().isPresent()) {
+            transactionDetail.setTransferId(String.valueOf(transaction.getTransferId()));
+            var transferDetails = transaction.getRelatedTransactions().stream().findFirst().get();
             transactionDetail.setTransferDetail(
                     new TransferDetail(
-                            String.valueOf(transaction.getAccount().getUuid()),
-                            transaction.getAccount().getCustomer().getCustomerName()));
+                            String.valueOf(transferDetails.getAccount().getUuid()),
+                            transferDetails.getAccount().getCustomer().getCustomerName()));
         }
 
         return ResponseEntity.ok(transactionDetail);
