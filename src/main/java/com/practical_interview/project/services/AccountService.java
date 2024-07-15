@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.UUID;
 
 @Service
@@ -88,6 +89,7 @@ public class AccountService {
                 .account(account)
                 .dateCreated(LocalDateTime.now())
                 .transferId(transferID)
+                .relatedTransactions(new HashSet<>())
                 .build();
     }
 
