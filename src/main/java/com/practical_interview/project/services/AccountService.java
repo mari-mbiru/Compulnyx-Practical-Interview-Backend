@@ -1,4 +1,4 @@
-package com.practical_interview.project.domain.services;
+package com.practical_interview.project.services;
 
 import com.practical_interview.project.controllers.dtos.*;
 import com.practical_interview.project.exceptions.AppException;

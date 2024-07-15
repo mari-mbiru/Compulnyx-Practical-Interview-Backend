@@ -4,7 +4,7 @@ import com.practical_interview.project.controllers.dtos.TransactionRequest;
 import com.practical_interview.project.controllers.dtos.TransactionResponse;
 import com.practical_interview.project.controllers.dtos.TransferRequest;
 import com.practical_interview.project.controllers.dtos.TransferResponse;
-import com.practical_interview.project.domain.services.AccountService;
+import com.practical_interview.project.services.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

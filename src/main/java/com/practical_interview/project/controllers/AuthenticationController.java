@@ -4,7 +4,7 @@ import com.practical_interview.project.controllers.dtos.AuthenticationRequest;
 import com.practical_interview.project.controllers.dtos.AuthenticationResponse;
 import com.practical_interview.project.controllers.dtos.RegisterRequest;
 import com.practical_interview.project.controllers.dtos.RegistrationResponse;
-import com.practical_interview.project.domain.services.authentication.AuthenticationService;
+import com.practical_interview.project.services.authentication.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,4 +1,4 @@
-package com.practical_interview.project.domain.services.authentication;
+package com.practical_interview.project.services.authentication;
 
 import com.practical_interview.project.persistence.repositories.TokenRespository;
 import jakarta.servlet.http.HttpServletRequest;
