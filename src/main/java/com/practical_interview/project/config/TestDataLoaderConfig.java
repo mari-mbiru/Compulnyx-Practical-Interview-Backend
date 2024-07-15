@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -37,7 +38,7 @@ public class TestDataLoaderConfig {
             customerRepository.save(firstCustomer);
 
             var account = AccountEntity.builder()
-                    .accountBalance(6500L)
+                    .accountBalance(new BigDecimal(6500))
                     .customer(firstCustomer)
                     .build();
             accountRepository.save(account);
@@ -52,7 +53,7 @@ public class TestDataLoaderConfig {
             customerRepository.save(nextCustomer);
 
             var account2 = AccountEntity.builder()
-                    .accountBalance(2700L)
+                    .accountBalance(new BigDecimal(2700))
                     .customer(nextCustomer)
                     .build();
             accountRepository.save(account2);
@@ -62,28 +63,28 @@ public class TestDataLoaderConfig {
             var transactions = Arrays.asList(
                     //Deposit account 1
                     TransactionEntity.builder()
-                            .transactionAmount(10000L)
+                            .transactionAmount(new BigDecimal(10000))
                             .transactionType(TransactionTypeEnum.CREDIT)
                             .dateCreated(date)
                             .account(account).build(),
 
                     //Deposit account 2
                     TransactionEntity.builder()
-                            .transactionAmount(10000L)
+                            .transactionAmount(new BigDecimal(10000))
                             .transactionType(TransactionTypeEnum.CREDIT)
                             .dateCreated(date)
                             .account(account2).build(),
 
                     //Withdraw account 1
                     TransactionEntity.builder()
-                            .transactionAmount(2500L)
+                            .transactionAmount(new BigDecimal(2500))
                             .transactionType(TransactionTypeEnum.DEBIT)
                             .dateCreated(date)
                             .account(account).build(),
 
                     //Withdraw account 2
                     TransactionEntity.builder()
-                            .transactionAmount(7500L)
+                            .transactionAmount(new BigDecimal(7500))
                             .transactionType(TransactionTypeEnum.DEBIT)
                             .dateCreated(date)
                             .account(account2).build()
@@ -98,7 +99,7 @@ public class TestDataLoaderConfig {
 
             //Transfer account 2 to account 1
             var transferDebit = TransactionEntity.builder()
-                    .transactionAmount(200L)
+                    .transactionAmount(new BigDecimal(200))
                     .transactionType(TransactionTypeEnum.CREDIT)
                     .transferId(transferId)
                     .dateCreated(date)
@@ -106,7 +107,7 @@ public class TestDataLoaderConfig {
                     .account(account).build();
 
             var transferCredit = TransactionEntity.builder()
-                    .transactionAmount(200L)
+                    .transactionAmount(new BigDecimal(200))
                     .transactionType(TransactionTypeEnum.DEBIT)
                     .transferId(transferId)
                     .dateCreated(date)
@@ -119,7 +120,7 @@ public class TestDataLoaderConfig {
 
             //Transfer account 1 to account 2
             var transfer2Debit = TransactionEntity.builder()
-                    .transactionAmount(1000L)
+                    .transactionAmount(new BigDecimal(1000))
                     .transactionType(TransactionTypeEnum.DEBIT)
                     .transferId(transferId2)
                     .dateCreated(date)
@@ -127,7 +128,7 @@ public class TestDataLoaderConfig {
                     .account(account).build();
 
             var transfer2Credit = TransactionEntity.builder()
-                    .transactionAmount(1000L)
+                    .transactionAmount(new BigDecimal(1000))
                     .transactionType(TransactionTypeEnum.CREDIT)
                     .transferId(transferId2)
                     .dateCreated(date)

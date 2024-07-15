@@ -1,6 +1,6 @@
 create table accounts
 (
-    account_balance  bigint not null,
+    account_balance numeric(20, 3) not null,
     customer_uuid_fk uuid unique,
     uuid             uuid   not null,
     primary key (uuid)
@@ -28,7 +28,7 @@ create table tokens
 create table transactions
 (
     date_created           timestamp(6) not null,
-    transaction_amount     bigint       not null check (transaction_amount >= 0),
+    transaction_amount numeric(20, 3) not null check (transaction_amount >= 0),
     account_id_fk          uuid,
     related_transaction_id uuid,
     transfer_id            uuid,

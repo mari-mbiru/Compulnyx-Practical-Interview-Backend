@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -30,7 +31,7 @@ public class TransactionEntity {
 
     @NotNull
     @Min(0)
-    private Long transactionAmount;
+    private BigDecimal transactionAmount;
 
     @NotNull
     @Enumerated(EnumType.STRING)

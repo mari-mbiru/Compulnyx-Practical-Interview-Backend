@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
@@ -15,7 +16,7 @@ public class Transaction {
 
     private LocalDateTime dateCreated;
 
-    private Long transactionAmount;
+    private BigDecimal transactionAmount;
 
     private TransactionTypeEnum transactionType;
 

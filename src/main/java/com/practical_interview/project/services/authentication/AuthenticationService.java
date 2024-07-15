@@ -18,6 +18,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+
 
 @Service
 @RequiredArgsConstructor
@@ -39,7 +41,7 @@ public class AuthenticationService {
             throw new AppException("A user with that Id already exists. Id must be unique", HttpStatus.BAD_REQUEST);
         }
         var account = AccountEntity.builder()
-                .accountBalance(0L)
+                .accountBalance(BigDecimal.ZERO)
                 .customer(customer)
                 .build();
         accountRepository.save(account);

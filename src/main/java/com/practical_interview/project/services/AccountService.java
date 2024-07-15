@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.UUID;
@@ -53,8 +54,8 @@ public class AccountService {
         AccountEntity toAccount = findAccountByCustomerId(request.toCustomerId());
 
         // Calculate new balances
-        Long fromNewBalance = getNewBalance(fromAccount.getAccountBalance(), request.transferAmount(), TransactionTypeEnum.DEBIT);
-        Long toNewBalance = getNewBalance(toAccount.getAccountBalance(), request.transferAmount(), TransactionTypeEnum.CREDIT);
+        BigDecimal fromNewBalance = getNewBalance(fromAccount.getAccountBalance(), request.transferAmount(), TransactionTypeEnum.DEBIT);
+        BigDecimal toNewBalance = getNewBalance(toAccount.getAccountBalance(), request.transferAmount(), TransactionTypeEnum.CREDIT);
 
         // Generate a unique transfer ID
         UUID transferID = UUID.randomUUID();
@@ -82,7 +83,7 @@ public class AccountService {
                 .build();
     }
 
-    private TransactionEntity createTransaction(Long transactionAmount, TransactionTypeEnum transactionType, AccountEntity account, UUID transferID) {
+    private TransactionEntity createTransaction(BigDecimal transactionAmount, TransactionTypeEnum transactionType, AccountEntity account, UUID transferID) {
         return TransactionEntity.builder()
                 .transactionAmount(transactionAmount)
                 .transactionType(transactionType)
@@ -106,16 +107,17 @@ public class AccountService {
                 .accountId(account.getUuid().toString())
                 .build();
     }
-    private Long getNewBalance(Long accountBalance, Long transactionAmount, TransactionTypeEnum transactionType) {
+
+    private BigDecimal getNewBalance(BigDecimal accountBalance, BigDecimal transactionAmount, TransactionTypeEnum transactionType) {
 
         if(transactionType== TransactionTypeEnum.CREDIT){
-            return accountBalance + transactionAmount;
+            return accountBalance.add(transactionAmount);
         } else {
-            return accountBalance - transactionAmount;
+            return accountBalance.subtract(transactionAmount);
         }
     }
 
-    private void updateAccountBalance(AccountEntity account, Long newBalance) {
+    private void updateAccountBalance(AccountEntity account, BigDecimal newBalance) {
         account.setAccountBalance(newBalance);
         accountRepository.save(account);
     }

@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -27,7 +28,7 @@ public class AccountEntity {
     public CustomerEntity customer;
 
     @NotNull
-    private Long accountBalance;
+    private BigDecimal accountBalance;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
     private Collection<TransactionEntity> transactions;
