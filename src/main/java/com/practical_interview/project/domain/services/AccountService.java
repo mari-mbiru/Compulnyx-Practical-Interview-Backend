@@ -74,6 +74,9 @@ public class AccountService {
                 .transferId(transferID)
                 .build();
 
+        fromTransaction.setRelatedTransaction(toTransaction);
+        toTransaction.setRelatedTransaction(fromTransaction);
+
         transactionRepository.save(fromTransaction);
         transactionRepository.save(toTransaction);
 

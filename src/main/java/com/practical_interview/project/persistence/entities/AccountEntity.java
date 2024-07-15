@@ -23,7 +23,7 @@ public class AccountEntity {
     @Column(name = "uuid")
     private UUID uuid;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_uuid_fk", referencedColumnName = "uuid")
     public CustomerEntity customer;
 

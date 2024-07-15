@@ -20,4 +20,6 @@ public class Transaction {
     private TransactionTypeEnum transactionType;
 
     private String transferId;
+
+    private TransferDetail transferDetail;
 }

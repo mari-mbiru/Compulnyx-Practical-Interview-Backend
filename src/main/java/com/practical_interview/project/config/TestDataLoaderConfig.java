@@ -43,7 +43,7 @@ public class TestDataLoaderConfig {
 
             CustomerEntity nextCustomer = CustomerEntity.builder()
                     .firstName("Brian")
-                    .lastName("Brian")
+                    .lastName("Kimani")
                     .email("brian.kimani@example.com")
                     .userId("93516284")
                     .userPin(passwordEncoder.encode("12345"))
@@ -56,8 +56,6 @@ public class TestDataLoaderConfig {
                     .build();
             accountRepository.save(account2);
 
-            var transferId = UUID.randomUUID();
-            var transferId2 = UUID.randomUUID();
             var date = LocalDateTime.now();
 
             var transactions = Arrays.asList(
@@ -87,40 +85,52 @@ public class TestDataLoaderConfig {
                             .transactionAmount(7500L)
                             .transactionType(TransactionTypeEnum.DEBIT)
                             .dateCreated(date)
-                            .account(account2).build(),
-
-                    //Transfer account 2 to account 1
-                    TransactionEntity.builder()
-                            .transactionAmount(200L)
-                            .transactionType(TransactionTypeEnum.CREDIT)
-                            .transferId(transferId)
-                            .dateCreated(date)
-                            .account(account).build(),
-
-                    TransactionEntity.builder()
-                            .transactionAmount(200L)
-                            .transactionType(TransactionTypeEnum.DEBIT)
-                            .transferId(transferId)
-                            .dateCreated(date)
-                            .account(account2).build(),
-
-                    //Transfer account 1 to account 2
-                    TransactionEntity.builder()
-                            .transactionAmount(1000L)
-                            .transactionType(TransactionTypeEnum.DEBIT)
-                            .transferId(transferId2)
-                            .dateCreated(date)
-                            .account(account).build(),
-
-                    TransactionEntity.builder()
-                            .transactionAmount(1000L)
-                            .transactionType(TransactionTypeEnum.CREDIT)
-                            .transferId(transferId2)
-                            .dateCreated(date)
                             .account(account2).build()
+
+
             );
 
             transactionRepository.saveAll(transactions);
+
+            var transferId = UUID.randomUUID();
+            var transferId2 = UUID.randomUUID();
+
+            //Transfer account 2 to account 1
+            var transferDebit = TransactionEntity.builder()
+                    .transactionAmount(200L)
+                    .transactionType(TransactionTypeEnum.CREDIT)
+                    .transferId(transferId)
+                    .dateCreated(date)
+                    .account(account).build();
+
+            var transferCredit = TransactionEntity.builder()
+                    .transactionAmount(200L)
+                    .transactionType(TransactionTypeEnum.DEBIT)
+                    .transferId(transferId)
+                    .dateCreated(date)
+                    .account(account2).build();
+
+            transferDebit.setRelatedTransaction(transferCredit);
+            transferCredit.setRelatedTransaction(transferDebit);
+
+            //Transfer account 1 to account 2
+            var transfer2Debit = TransactionEntity.builder()
+                    .transactionAmount(1000L)
+                    .transactionType(TransactionTypeEnum.DEBIT)
+                    .transferId(transferId2)
+                    .dateCreated(date)
+                    .account(account).build();
+
+            var transfer2Credit = TransactionEntity.builder()
+                    .transactionAmount(1000L)
+                    .transactionType(TransactionTypeEnum.CREDIT)
+                    .transferId(transferId2)
+                    .dateCreated(date)
+                    .account(account2).build();
+            transfer2Debit.setRelatedTransaction(transferCredit);
+            transfer2Credit.setRelatedTransaction(transferDebit);
+
+            transactionRepository.saveAll(Arrays.asList(transferCredit, transferDebit, transfer2Credit, transfer2Debit));
         };
     }
 }
