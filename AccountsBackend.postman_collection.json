@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "971af5ad-9596-4e83-8e89-46420852bb60",
 		"name": "AccountsBackend",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
 		"_exporter_id": "36886748"
 	},
 	"item": [
@@ -40,16 +40,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "{{BASE_URL}}/auth/register",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"auth",
-								"register"
-							]
-						}
+						"url": "{{BASE_URL}}/auth/register"
 					},
 					"response": [
 						{
@@ -66,16 +57,7 @@
 										}
 									}
 								},
-								"url": {
-									"raw": "{{BASE_URL}}/auth/register",
-									"host": [
-										"{{BASE_URL}}"
-									],
-									"path": [
-										"auth",
-										"register"
-									]
-								}
+								"url": "{{BASE_URL}}/auth/register"
 							},
 							"status": "OK",
 							"code": 200,
@@ -151,16 +133,7 @@
 										}
 									}
 								},
-								"url": {
-									"raw": "{{BASE_URL}}/auth/register",
-									"host": [
-										"{{BASE_URL}}"
-									],
-									"path": [
-										"auth",
-										"register"
-									]
-								}
+								"url": "{{BASE_URL}}/auth/register"
 							},
 							"status": "OK",
 							"code": 200,
@@ -254,16 +227,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "{{BASE_URL}}/auth/authenticate",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"auth",
-								"authenticate"
-							]
-						}
+						"url": "{{BASE_URL}}/auth/authenticate"
 					},
 					"response": [
 						{
@@ -280,16 +244,7 @@
 										}
 									}
 								},
-								"url": {
-									"raw": "{{BASE_URL}}/auth/authenticate",
-									"host": [
-										"{{BASE_URL}}"
-									],
-									"path": [
-										"auth",
-										"authenticate"
-									]
-								}
+								"url": "{{BASE_URL}}/auth/authenticate"
 							},
 							"status": "OK",
 							"code": 200,
@@ -358,26 +313,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1NDMyMSIsImlhdCI6MTcyMDc0Mzg1NiwiZXhwIjoxNzIwODMwMjU2fQ.XENFn365PtwaD3Fq9AjNQmy58EIIPyUwWckusyAh6kg",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1NDMyMSIsImlhdCI6MTcyMDc0Mzg1NiwiZXhwIjoxNzIwODMwMjU2fQ.XENFn365PtwaD3Fq9AjNQmy58EIIPyUwWckusyAh6kg"
+							}
 						},
 						"method": "POST",
 						"header": [],
-						"url": {
-							"raw": "{{BASE_URL}}/auth/logout",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"auth",
-								"logout"
-							]
-						}
+						"url": "{{BASE_URL}}/auth/logout"
 					},
 					"response": [
 						{
@@ -400,16 +342,7 @@
 										}
 									}
 								},
-								"url": {
-									"raw": "{{BASE_URL}}/auth/logout",
-									"host": [
-										"{{BASE_URL}}"
-									],
-									"path": [
-										"auth",
-										"logout"
-									]
-								}
+								"url": "{{BASE_URL}}/auth/logout"
 							},
 							"status": "OK",
 							"code": 200,
@@ -479,42 +412,105 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{accessToken}}"
+							}
 						},
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "{{BASE_URL}}/customers/{{userId}}/balance",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"customers",
-								"{{userId}}",
-								"balance"
-							]
-						}
+						"url": "{{BASE_URL}}/customers/{{userId}}/balance"
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Customer Account Balance",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": "{{BASE_URL}}/customers/{{userId}}/balance"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 15 Jul 2024 03:06:39 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"userId\": \"75210938\",\n    \"accountId\": \"af679d35-1df5-4db8-9e1e-6ff1d704525e\",\n    \"accountBalance\": 6500\n}"
+						}
+					]
 				},
 				{
 					"name": "Customer Mini Statement",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseBody = pm.response.json();\r",
+									"pm.collectionVariables.set(\"transactionId\", responseBody[0].uuid);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{accessToken}}"
+							}
 						},
 						"method": "GET",
 						"header": [],
@@ -537,7 +533,219 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Customer Mini Statement",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/customers/{{userId}}/mini-statement?limit=10",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"customers",
+										"{{userId}}",
+										"mini-statement"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "10",
+											"description": "Not Required. Has default value of 10."
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 15 Jul 2024 03:07:07 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"uuid\": \"e9f8a7cb-d7bd-4edf-a901-cdcb134295f0\",\n        \"dateCreated\": \"2024-07-15T05:58:25.74199\",\n        \"transactionAmount\": 10000,\n        \"transactionType\": \"CREDIT\",\n        \"transferId\": null,\n        \"transferDetail\": null\n    },\n    {\n        \"uuid\": \"1c4e33ee-ca7a-49e6-87d1-a9c443ce43c4\",\n        \"dateCreated\": \"2024-07-15T05:58:25.74199\",\n        \"transactionAmount\": 2500,\n        \"transactionType\": \"DEBIT\",\n        \"transferId\": null,\n        \"transferDetail\": null\n    },\n    {\n        \"uuid\": \"c7bf9951-a410-4e03-9e7a-d29f55bed21a\",\n        \"dateCreated\": \"2024-07-15T05:58:25.74199\",\n        \"transactionAmount\": 200,\n        \"transactionType\": \"CREDIT\",\n        \"transferId\": \"fbcce5a4-c2d7-486a-91a8-32724999de4f\",\n        \"transferDetail\": null\n    },\n    {\n        \"uuid\": \"616718fd-9bb1-499d-9809-a7375172e492\",\n        \"dateCreated\": \"2024-07-15T05:58:25.74199\",\n        \"transactionAmount\": 1000,\n        \"transactionType\": \"DEBIT\",\n        \"transferId\": \"0aacf2e9-d41f-4e8c-a19e-6010930be8ac\",\n        \"transferDetail\": null\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Get Customers",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{accessToken}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/customers",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"customers"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "5",
+									"description": "Optional",
+									"disabled": true
+								},
+								{
+									"key": "customerName",
+									"value": null,
+									"description": "Optional. Searches for customers with the name like the value of this.",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Cutomers",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/customers",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"customers"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "5",
+											"description": "Optional",
+											"disabled": true
+										},
+										{
+											"key": "customerName",
+											"value": null,
+											"description": "Optional. Searches for customers with the name like the value of this.",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 15 Jul 2024 03:07:29 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"customerId\": \"75210938\",\n        \"customerName\": \"Joyce Akinyi\"\n    },\n    {\n        \"customerId\": \"93516284\",\n        \"customerName\": \"Brian Kimani\"\n    }\n]"
+						}
+					]
 				}
 			]
 		},
@@ -549,13 +757,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{accessToken}}"
+							}
 						},
 						"method": "POST",
 						"header": [],
@@ -568,31 +772,95 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "{{BASE_URL}}/accounts/transaction",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"accounts",
-								"transaction"
-							]
-						}
+						"url": "{{BASE_URL}}/accounts/transaction"
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Create Transaction",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"transactionType\":\"DEBIT\",\r\n    \"transactionAmount\":7000,\r\n    \"userId\":\"{{userId}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{BASE_URL}}/accounts/transaction"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 15 Jul 2024 03:07:50 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"accountBalance\": -7000\n}"
+						}
+					]
 				},
 				{
 					"name": "Create Transfer",
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{accessToken}}"
+							}
 						},
 						"method": "POST",
 						"header": [],
@@ -605,16 +873,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "{{BASE_URL}}/accounts/transfer",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"accounts",
-								"transfer"
-							]
-						}
+						"url": "{{BASE_URL}}/accounts/transfer"
 					},
 					"response": []
 				}
@@ -626,10 +885,152 @@
 				{
 					"name": "Get Transaction by Id",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{accessToken}}"
+							}
+						},
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": "{{BASE_URL}}/transactions/{{transactionId}}"
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Get Transaction By Id (Simple Transaction)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": "{{BASE_URL}}/transactions/{{transactionId}}"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 15 Jul 2024 03:15:17 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"uuid\": \"fcf0e808-3374-4f56-b3ea-83113001cbeb\",\n    \"dateCreated\": \"2024-07-15T06:07:50.87222\",\n    \"transactionAmount\": 7000,\n    \"transactionType\": \"DEBIT\",\n    \"transferId\": null,\n    \"transferDetail\": null\n}"
+						},
+						{
+							"name": "Get Transaction by Id (Transfer betwen Accounts)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": "{{BASE_URL}}/transactions/c7bf9951-a410-4e03-9e7a-d29f55bed21a"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 15 Jul 2024 03:16:15 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"uuid\": \"c7bf9951-a410-4e03-9e7a-d29f55bed21a\",\n    \"dateCreated\": \"2024-07-15T05:58:25.74199\",\n    \"transactionAmount\": 200,\n    \"transactionType\": \"CREDIT\",\n    \"transferId\": \"fbcce5a4-c2d7-486a-91a8-32724999de4f\",\n    \"transferDetail\": {\n        \"transferAccountId\": \"9a011095-2e9f-45c4-b905-03ed78d9c31d\",\n        \"transferAccountName\": \"Brian Kimani\"\n    }\n}"
+						}
+					]
 				}
 			]
 		}
@@ -664,15 +1065,20 @@
 		},
 		{
 			"key": "userId",
-			"value": "null"
+			"value": "75210938"
 		},
 		{
 			"key": "userPin",
-			"value": "null",
+			"value": "12345",
 			"type": "string"
 		},
 		{
 			"key": "accessToken",
+			"value": "null",
+			"type": "string"
+		},
+		{
+			"key": "transactionId",
 			"value": "null",
 			"type": "string"
 		}
