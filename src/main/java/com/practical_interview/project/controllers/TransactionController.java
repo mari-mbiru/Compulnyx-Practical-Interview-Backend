@@ -1,7 +1,7 @@
 package com.practical_interview.project.controllers;
 
-import com.practical_interview.project.controllers.models.Transaction;
-import com.practical_interview.project.controllers.models.TransferDetail;
+import com.practical_interview.project.controllers.dtos.Transaction;
+import com.practical_interview.project.controllers.dtos.TransferDetail;
 import com.practical_interview.project.exceptions.AppException;
 import com.practical_interview.project.persistence.repositories.TransactionRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Objects;
 import java.util.UUID;
 
-import static com.practical_interview.project.config.ConfigConstants.BASE_URL;
+import static com.practical_interview.project.config.Constants.BASE_URL;
 
 @RequiredArgsConstructor
 @RestController

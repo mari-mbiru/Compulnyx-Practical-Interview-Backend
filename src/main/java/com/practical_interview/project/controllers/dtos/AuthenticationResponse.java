@@ -1,6 +1,5 @@
-package com.practical_interview.project.controllers.models;
+package com.practical_interview.project.controllers.dtos;
 
-import com.practical_interview.project.domain.models.CustomerDetail;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

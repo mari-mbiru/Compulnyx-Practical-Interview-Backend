@@ -1,8 +1,8 @@
 package com.practical_interview.project.controllers;
 
-import com.practical_interview.project.controllers.models.AccountBalanceResponse;
-import com.practical_interview.project.controllers.models.Customer;
-import com.practical_interview.project.controllers.models.Transaction;
+import com.practical_interview.project.controllers.dtos.AccountBalanceResponse;
+import com.practical_interview.project.controllers.dtos.Customer;
+import com.practical_interview.project.controllers.dtos.Transaction;
 import com.practical_interview.project.exceptions.AppException;
 import com.practical_interview.project.persistence.repositories.AccountRepository;
 import com.practical_interview.project.persistence.repositories.CustomerRepository;
@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.practical_interview.project.config.ConfigConstants.BASE_URL;
+import static com.practical_interview.project.config.Constants.BASE_URL;
 
 @RequiredArgsConstructor
 @RestController

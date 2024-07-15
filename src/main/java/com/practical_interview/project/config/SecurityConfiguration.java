@@ -28,7 +28,7 @@ public class SecurityConfiguration {
             "/v3/api-docs/**",
 
     };
-    private final JWTAuthenticationFilter jwtAuthFilter;
+    private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
     private final LogoutHandler logoutHandler;
 

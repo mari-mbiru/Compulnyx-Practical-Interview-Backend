@@ -1,6 +1,9 @@
-package com.practical_interview.project.domain.models;
+package com.practical_interview.project.controllers.dtos;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 @Data
 @Builder

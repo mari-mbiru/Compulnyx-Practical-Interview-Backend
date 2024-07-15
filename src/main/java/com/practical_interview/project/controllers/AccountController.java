@@ -1,9 +1,9 @@
 package com.practical_interview.project.controllers;
 
-import com.practical_interview.project.controllers.models.TransactionRequest;
-import com.practical_interview.project.controllers.models.TransactionResponse;
-import com.practical_interview.project.controllers.models.TransferRequest;
-import com.practical_interview.project.controllers.models.TransferResponse;
+import com.practical_interview.project.controllers.dtos.TransactionRequest;
+import com.practical_interview.project.controllers.dtos.TransactionResponse;
+import com.practical_interview.project.controllers.dtos.TransferRequest;
+import com.practical_interview.project.controllers.dtos.TransferResponse;
 import com.practical_interview.project.domain.services.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.practical_interview.project.config.ConfigConstants.BASE_URL;
+import static com.practical_interview.project.config.Constants.BASE_URL;
 
 
 @RequiredArgsConstructor

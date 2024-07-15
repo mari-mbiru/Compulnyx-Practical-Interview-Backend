@@ -20,14 +20,11 @@ public class ApplicationConfig {
 
     private final CustomerRepository repository;
 
-
     @Bean
     public UserDetailsService userDetailsService() {
         return userID -> repository.findByUserId(userID)
                 .orElseThrow(() -> new AppException("User not found", HttpStatus.UNAUTHORIZED));
     }
-
-
 
     @Bean
     public AuthenticationProvider authenticationProvider() {

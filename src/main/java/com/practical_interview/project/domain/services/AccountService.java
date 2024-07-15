@@ -1,6 +1,6 @@
 package com.practical_interview.project.domain.services;
 
-import com.practical_interview.project.controllers.models.*;
+import com.practical_interview.project.controllers.dtos.*;
 import com.practical_interview.project.exceptions.AppException;
 import com.practical_interview.project.persistence.entities.AccountEntity;
 import com.practical_interview.project.persistence.entities.TransactionEntity;

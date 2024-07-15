@@ -1,4 +1,4 @@
-package com.practical_interview.project.controllers.models;
+package com.practical_interview.project.controllers.dtos;
 
 import com.practical_interview.project.persistence.entities.enums.TransactionTypeEnum;
 

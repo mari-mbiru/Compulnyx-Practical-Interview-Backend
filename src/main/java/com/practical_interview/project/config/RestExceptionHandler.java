@@ -1,7 +1,7 @@
 package com.practical_interview.project.config;
 
 
-import com.practical_interview.project.domain.ErrorDTO;
+import com.practical_interview.project.controllers.dtos.ErrorDTO;
 import com.practical_interview.project.exceptions.AppException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

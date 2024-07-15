@@ -1,12 +1,8 @@
 package com.practical_interview.project.domain.services.authentication;
 
-import com.practical_interview.project.config.JWTService;
+import com.practical_interview.project.config.JwtService;
 import com.practical_interview.project.config.Utils;
-import com.practical_interview.project.controllers.models.AuthenticationRequest;
-import com.practical_interview.project.controllers.models.AuthenticationResponse;
-import com.practical_interview.project.controllers.models.RegisterRequest;
-import com.practical_interview.project.controllers.models.RegistrationResponse;
-import com.practical_interview.project.domain.models.CustomerDetail;
+import com.practical_interview.project.controllers.dtos.*;
 import com.practical_interview.project.exceptions.AppException;
 import com.practical_interview.project.persistence.entities.AccountEntity;
 import com.practical_interview.project.persistence.entities.CustomerEntity;
@@ -28,7 +24,7 @@ import org.springframework.stereotype.Service;
 public class AuthenticationService {
     private final CustomerRepository customerRepository;
     private final TokenRespository tokenRespository;
-    private final JWTService jwtService;
+    private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final AccountRepository accountRepository;
