@@ -19,7 +19,6 @@ public class TokenEntity {
 
     @Id
     @GeneratedValue
-    @Column(name = "uuid")
     public UUID uuid;
 
     @Column(unique = true)

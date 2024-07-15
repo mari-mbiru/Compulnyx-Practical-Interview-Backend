@@ -20,7 +20,6 @@ public class AccountEntity {
 
     @Id
     @GeneratedValue
-    @Column(name = "uuid")
     private UUID uuid;
 
     @OneToOne(fetch = FetchType.EAGER)

@@ -23,7 +23,6 @@ public class CustomerEntity implements UserDetails {
 
     @Id
     @GeneratedValue
-    @Column(name = "uuid")
     private UUID uuid;
 
     @NotBlank
@@ -32,7 +31,6 @@ public class CustomerEntity implements UserDetails {
     @NotBlank
     private String lastName;
 
-    @Column(name = "email")
     @NotBlank
     private String email;
 

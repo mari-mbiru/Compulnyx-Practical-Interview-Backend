@@ -23,7 +23,6 @@ import java.util.UUID;
 public class TransactionEntity {
     @Id
     @GeneratedValue
-    @Column(name = "uuid")
     private UUID uuid;
 
     @NotNull
@@ -39,6 +38,12 @@ public class TransactionEntity {
 
     private UUID transferId;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "account_id_fk", referencedColumnName = "uuid")
+    private AccountEntity account;
+
+    //This is a self-referential relationship. Relating any transactions that are part of a transfer to each other
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "related_transaction_id")
     @JsonBackReference
@@ -47,10 +52,6 @@ public class TransactionEntity {
     @OneToMany(mappedBy = "relatedTransaction", fetch = FetchType.LAZY)
     @JsonManagedReference
     private Set<TransactionEntity> relatedTransactions = new HashSet<>();
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "account_id_fk", referencedColumnName = "uuid")
-    private AccountEntity account;
 
     public void addRelatedTransaction(TransactionEntity relatedTransaction) {
         relatedTransaction.setRelatedTransaction(this);
