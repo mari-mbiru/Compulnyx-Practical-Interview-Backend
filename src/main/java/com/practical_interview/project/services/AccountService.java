@@ -25,7 +25,7 @@ public class AccountService {
     @Transactional
     public TransactionResponse makeTransaction(TransactionRequest request){
 
-        var account = accountRepository.findByCustomerId(request.userId()).orElseThrow(() -> new AppException("User not found", HttpStatus.NOT_FOUND));
+        var account = findAccountByCustomerId(request.userId());
 
         var newBalance = getNewBalance(account.getAccountBalance(), request.transactionAmount(), request.transactionType());
 
@@ -38,61 +38,64 @@ public class AccountService {
 
         transactionRepository.save(transaction);
 
-        account.setAccountBalance(newBalance);
-        accountRepository.save(account);
+        updateAccountBalance(account, newBalance);
 
         return TransactionResponse.builder()
                 .accountBalance(account.getAccountBalance())
                 .build();
     }
 
-
     @Transactional
-    public TransferResponse makeTransfer(TransferRequest request){
+    public TransferResponse makeTransfer(TransferRequest request) {
+        // Find sender and receiver accounts
+        AccountEntity fromAccount = findAccountByCustomerId(request.fromCustomerId());
+        AccountEntity toAccount = findAccountByCustomerId(request.toCustomerId());
 
-        var fromAccount = accountRepository.findByCustomerId(request.fromCustomerId()).orElseThrow(() -> new AppException("Sending user does not exist, please try again with another user.", HttpStatus.NOT_FOUND));
-        var toAccount = accountRepository.findByCustomerId(request.toCustomerId()).orElseThrow(() -> new AppException("Receiving user does not exist please try again with another user.", HttpStatus.NOT_FOUND));
+        // Calculate new balances
+        Long fromNewBalance = getNewBalance(fromAccount.getAccountBalance(), request.transferAmount(), TransactionTypeEnum.DEBIT);
+        Long toNewBalance = getNewBalance(toAccount.getAccountBalance(), request.transferAmount(), TransactionTypeEnum.CREDIT);
 
-        var fromNewBalance = getNewBalance(fromAccount.getAccountBalance(), request.transferAmount(), TransactionTypeEnum.DEBIT);
-        var toNewBalance = getNewBalance(toAccount.getAccountBalance(), request.transferAmount(), TransactionTypeEnum.CREDIT);
+        // Generate a unique transfer ID
+        UUID transferID = UUID.randomUUID();
 
-        var transferID = UUID.randomUUID();
+        // Create debit and credit transactions
+        TransactionEntity debitTransaction = createTransaction(request.transferAmount(), TransactionTypeEnum.DEBIT, fromAccount, transferID);
+        TransactionEntity creditTransaction = createTransaction(request.transferAmount(), TransactionTypeEnum.CREDIT, toAccount, transferID);
 
-        var debitTransaction = TransactionEntity.builder()
-                .transactionAmount(request.transferAmount())
-                .transactionType(TransactionTypeEnum.DEBIT)
-                .account(fromAccount)
-                .dateCreated(LocalDateTime.now())
-                .transferId(transferID)
-                .build();
-
-        var creditTransaction = TransactionEntity.builder()
-                .transactionAmount(request.transferAmount())
-                .transactionType(TransactionTypeEnum.CREDIT)
-                .account(toAccount)
-                .dateCreated(LocalDateTime.now())
-                .transferId(transferID)
-                .build();
-
+        // Link debit and credit transactions
         debitTransaction.addRelatedTransaction(creditTransaction);
         creditTransaction.addRelatedTransaction(debitTransaction);
 
+        // Save transactions
         transactionRepository.save(debitTransaction);
         transactionRepository.save(creditTransaction);
 
+        // Update account balances
+        updateAccountBalance(fromAccount, fromNewBalance);
+        updateAccountBalance(toAccount, toNewBalance);
 
-        fromAccount.setAccountBalance(fromNewBalance);
-        toAccount.setAccountBalance(toNewBalance);
-        accountRepository.save(fromAccount);
-        accountRepository.save(toAccount);
-
-
-
+        // Return transfer response
         return TransferResponse.builder()
                 .fromAccountDetail(getAccountBalanceResponse(fromAccount))
                 .toAccountDetail(getAccountBalanceResponse(toAccount))
                 .build();
     }
+
+    private TransactionEntity createTransaction(Long transactionAmount, TransactionTypeEnum transactionType, AccountEntity account, UUID transferID) {
+        return TransactionEntity.builder()
+                .transactionAmount(transactionAmount)
+                .transactionType(transactionType)
+                .account(account)
+                .dateCreated(LocalDateTime.now())
+                .transferId(transferID)
+                .build();
+    }
+
+    private AccountEntity findAccountByCustomerId(String customerId) {
+        return accountRepository.findByCustomerId(customerId)
+                .orElseThrow(() -> new AppException("User or account does not exist, please try again with another user.", HttpStatus.NOT_FOUND));
+    }
+
 
     private AccountBalanceResponse getAccountBalanceResponse(AccountEntity account){
         return AccountBalanceResponse.builder()
@@ -108,5 +111,10 @@ public class AccountService {
         } else {
             return accountBalance - transactionAmount;
         }
+    }
+
+    private void updateAccountBalance(AccountEntity account, Long newBalance) {
+        account.setAccountBalance(newBalance);
+        accountRepository.save(account);
     }
 }
